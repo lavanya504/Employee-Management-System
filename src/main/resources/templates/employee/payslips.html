@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payslips - Employee Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Payslips</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Month</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="payslip : ${payslips}">
+            <td th:text="${#temporals.format(payslip.month, 'MMMM yyyy')}"></td>
+            <td>
+                <a th:href="@{/employee/payslip/{id}(id=${payslip.id})}" class="btn btn-sm btn-primary">Download</a>
+            </td>
+        </tr>
+        <tr th:if="${payslips.size() == 0}">
+            <td colspan="2">No payslips found for the last six months.</td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/employee/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+</body>
+</html>

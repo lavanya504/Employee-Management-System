@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Dashboard - Employee Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-header {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-header i {
+            margin-right: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+        }
+
+        .table td {
+            background-color: white;
+            border: 1px solid #dee2e6;
+            padding: 1rem;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .btn-custom {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .btn-logout {
+            background-color: #e74c3c;
+        }
+
+        .btn-logout:hover {
+            background-color: #c0392b;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .status-badge {
+            background-color: #27ae60;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="profile-info">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>
+                    <h2 class="mb-0" th:text="${personalDetails.fullName}">Employee Name</h2>
+                    <span class="status-badge">Active Employee</span>
+                </div>
+            </div>
+            <a href="/logout" class="btn btn-custom btn-logout">
+                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- Personal Details Section -->
+    <div class="section-card">
+        <h3 class="section-header">
+            <i class="fas fa-user-circle"></i>
+            Personal Details
+        </h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Full Name</th>
+                    <td th:text="${personalDetails.fullName}"></td>
+                    <th>Date of Birth</th>
+                    <td th:text="${#temporals.format(personalDetails.dateOfBirth, 'dd-MM-yyyy')}"></td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td th:text="${personalDetails.gender}"></td>
+                    <th>Mobile</th>
+                    <td th:text="${personalDetails.mobile}"></td>
+                </tr>
+                <tr>
+                    <th>Current Address</th>
+                    <td colspan="3" th:text="${personalDetails.currentAddressLine1 + ', ' + personalDetails.currentAddressLine2 + ', ' + personalDetails.currentCity + ' - ' + personalDetails.currentPincode}"></td>
+                </tr>
+                <tr>
+                    <th>Permanent Address</th>
+                    <td colspan="3" th:text="${personalDetails.permanentAddressLine1 + ', ' + personalDetails.permanentAddressLine2 + ', ' + personalDetails.permanentCity + ' - ' + personalDetails.permanentPincode}"></td>
+                </tr>
+                <tr>
+                    <th>Personal Email</th>
+                    <td th:text="${personalDetails.personalEmail}"></td>
+                    <th>Emergency Contact</th>
+                    <td th:text="${personalDetails.emergencyContactName + ' (' + personalDetails.emergencyContactMobile + ')'}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Professional Details Section -->
+    <div class="section-card">
+        <h3 class="section-header">
+            <i class="fas fa-briefcase"></i>
+            Professional Details
+        </h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Employment Code</th>
+                    <td th:text="${professionalDetails.employmentCode}"></td>
+                    <th>Date of Joining</th>
+                    <td th:text="${#temporals.format(professionalDetails.dateOfJoining, 'dd-MM-yyyy')}"></td>
+                </tr>
+                <tr>
+                    <th>Company Email</th>
+                    <td th:text="${professionalDetails.companyEmail}"></td>
+                    <th>Office Phone</th>
+                    <td th:text="${professionalDetails.officePhone}"></td>
+                </tr>
+                <tr>
+                    <th>Office Address</th>
+                    <td colspan="3" th:text="${professionalDetails.officeAddressLine1 + ', ' + professionalDetails.officeAddressLine2 + ', ' + professionalDetails.city + ' - ' + professionalDetails.officePincode}"></td>
+                </tr>
+                <tr>
+                    <th>Reporting Manager</th>
+                    <td th:text="${professionalDetails.reportingManagerCode + ' - ' + professionalDetails.reportingManagerName}"></td>
+                    <th>HR Name</th>
+                    <td th:text="${professionalDetails.hrName}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Project Details Section -->
+    <div class="section-card">
+        <h3 class="section-header">
+            <i class="fas fa-project-diagram"></i>
+            Project Details
+        </h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Project Code</th>
+                    <th>Project Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Reporting Manager</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="project : ${projectDetails}">
+                    <td th:text="${project.projectCode}"></td>
+                    <td th:text="${project.projectName}"></td>
+                    <td th:text="${#temporals.format(project.startDate, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${project.endDate != null ? #temporals.format(project.endDate, 'dd-MM-yyyy') : 'Ongoing'}"></td>
+                    <td th:text="${project.reportingManagerCode}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Finance Details Section -->
+    <div class="section-card">
+        <h3 class="section-header">
+            <i class="fas fa-money-check-alt"></i>
+            Finance Details
+        </h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>PAN Card</th>
+                    <td th:text="${financeDetails.panCard}"></td>
+                    <th>Aadhar Card</th>
+                    <td th:text="${financeDetails.aadharCard}"></td>
+                </tr>
+                <tr>
+                    <th>Bank Name</th>
+                    <td th:text="${financeDetails.bankName}"></td>
+                    <th>Branch Name</th>
+                    <td th:text="${financeDetails.branchName}"></td>
+                </tr>
+                <tr>
+                    <th>IFSC Code</th>
+                    <td th:text="${financeDetails.ifscCode}"></td>
+                    <th>CTC</th>
+                    <td th:text="${financeDetails.ctc}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="/employee/payslips" class="btn btn-custom">
+            <i class="fas fa-file-invoice-dollar mr-2"></i>View Payslips
+        </a>
+    </div>
+</div>
+
+<!-- JavaScript Dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Details - Employee Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 th:text="${employee.personalDetails.fullName} + ' Details'"></h2>
+
+    <h3>Personal Details</h3>
+    <ul class="list-group mb-4">
+        <li class="list-group-item">
+            <strong>Full Name:</strong> <span th:text="${employee.personalDetails.fullName}"></span>
+        </li>
+        <li class="list-group-item">
+            <strong>Date of Birth:</strong> <span th:text="${#temporals.format(employee.personalDetails.dateOfBirth, 'dd MMMM yyyy')}"></span>
+        </li>
+        <li class="list-group-item">
+            <strong>Gender:</strong> <span th:text="${employee.personalDetails.gender}"></span>
+        </li>
+        <li class="list-group-item">
+            <strong>Age:</strong> <span th:text="${employee.personalDetails.age}"></span>
+        </li>
+        <li class="list-group-item">
+            <strong>Current Address:</strong> <span th:text="${employee.personalDetails.currentAddressLine1}"></span>
+        </li>
+    </ul>
+
+    <h3>Professional Details</h3>
+    <ul class="list-group mb-4">
+        <li class="list-group-item">
+            <strong>Job Title:</strong> <span th:text="${employee.professionalDetails.jobTitle}"></span>
+        </li>
+        <li class="list-group-item">
+            <strong>Department:</strong> <span th:text="${employee.professionalDetails.department}"></span>
+        </li>
+        <li class="list-group-item">
+            <strong>Joining Date:</strong> <span th:text="${#temporals.format(employee.professionalDetails.joiningDate, 'dd MMMM yyyy')}"></span>
+        </li>
+        <!-- Add more fields as needed -->
+    </ul>
+
+    <h3>Financial Details</h3>
+    <ul class="list-group mb-4">
+        <li class="list-group-item">
+            <strong>Salary:</strong> <span th:text="${employee.financeDetails.salary}"></span>
+        </li>
+        <li class="list-group-item">
+            <strong>Bank Account:</strong> <span th:text="${employee.financeDetails.bankAccountNumber}"></span>
+        </li>
+        <!-- Add more fields as needed -->
+    </ul>
+
+    <a href="/admin/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+</body>
+</html>
